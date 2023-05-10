@@ -24,7 +24,9 @@ export async function fetchAPI(path: string, urlParamsObject = {}, options = {})
     const mergedOptions = {
         headers: {
             "Content-Type": "application/json",
+            Authorization: `Bearer ${process.env.token}`,
         },
+        timeout: 600000,
         ...options,
     };
 
