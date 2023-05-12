@@ -3,7 +3,6 @@ import Link from "next/link";
 
 // @ts-ignore
 const Nav = ({ categories }) => {
-    console.log(categories)
     return (
         <div>
             <nav className="uk-navbar-container" data-uk-navbar>

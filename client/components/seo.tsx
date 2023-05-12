@@ -5,8 +5,6 @@ import { getStrapiMedia } from "../lib/media";
 
 // @ts-ignore
 const Seo = ({ seo }) => {
-    console.log(seo)
-
     return (
         <Head>
             {seo.data && (

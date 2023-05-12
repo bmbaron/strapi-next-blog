@@ -32,14 +32,12 @@ type ArticleProps = {
 const Card = ({ article, leftSide }: ArticleProps) => {
 
     const isSm = useMediaQuery('(max-width: 600px)');
-
-    console.log(article.attributes)
     return (
-        <Link legacyBehavior href={`/posts/${article.attributes.slug}`}>
+        <Link legacyBehavior href={`/articles/${article.attributes.slug}`}>
             <a className="uk-link-reset">
                 <CardContainer className="uk-card uk-card-muted">
                     <ImageContainer className="uk-card-media-top">
-                        <BlogImage width={leftSide || isSm ? 600 : 200} height={leftSide || isSm ? 300 : 100} isBig={leftSide} src={process.env.NEXT_PUBLIC_STRAPI_API_URL + article.attributes.image.data.attributes.url} />
+                        <BlogImage alt="hello" width={leftSide || isSm ? 600 : 200} height={leftSide || isSm ? 300 : 100} isBig={leftSide} src={process.env.NEXT_PUBLIC_STRAPI_API_URL + article.attributes.image.data.attributes.url} />
                     </ImageContainer>
                     <CardDetails
                         style={{
