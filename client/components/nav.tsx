@@ -3,6 +3,7 @@ import Link from "next/link";
 
 // @ts-ignore
 const Nav = ({ categories }) => {
+    console.log(categories)
     return (
         <div>
             <nav className="uk-navbar-container" data-uk-navbar>
@@ -17,7 +18,7 @@ const Nav = ({ categories }) => {
                 </div>
                 <div className="uk-navbar-right">
                     <ul className="uk-navbar-nav">
-                        {categories.map((category: any) => {
+                        {categories.data.map((category: any) => {
                             return (
                                 <li key={category.id}>
                                     <Link legacyBehavior href={`/category/${category.attributes.slug}`}>

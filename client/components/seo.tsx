@@ -5,44 +5,32 @@ import { getStrapiMedia } from "../lib/media";
 
 // @ts-ignore
 const Seo = ({ seo }) => {
-    // @ts-ignore
-    const { defaultSeo, siteName } = useContext(GlobalContext);
-    const seoWithDefaults = {
-        ...defaultSeo,
-        ...seo,
-    };
-    const fullSeo = {
-        ...seoWithDefaults,
-        // Add title suffix
-        metaTitle: `${seoWithDefaults.metaTitle} | ${siteName}`,
-        // Get full image URL
-        shareImage: getStrapiMedia(seoWithDefaults.shareImage),
-    };
+    console.log(seo)
 
     return (
         <Head>
-            {fullSeo.metaTitle && (
+            {seo.data && (
                 <>
-                    <title>{fullSeo.metaTitle}</title>
-                    <meta property="og:title" content={fullSeo.metaTitle} />
-                    <meta name="twitter:title" content={fullSeo.metaTitle} />
+                    <title>{seo.metaTitle}</title>
+                    <meta property="og:title" content={seo.metaTitle} />
+                    <meta name="twitter:title" content={seo.metaTitle} />
                 </>
             )}
-            {fullSeo.metaDescription && (
+            {seo.metaDescription && (
                 <>
-                    <meta name="description" content={fullSeo.metaDescription} />
-                    <meta property="og:description" content={fullSeo.metaDescription} />
-                    <meta name="twitter:description" content={fullSeo.metaDescription} />
+                    <meta name="description" content={seo.metaDescription} />
+                    <meta property="og:description" content={seo.metaDescription} />
+                    <meta name="twitter:description" content={seo.metaDescription} />
                 </>
             )}
-            {fullSeo.shareImage && (
+            {seo.shareImage && (
                 <>
-                    <meta property="og:image" content={fullSeo.shareImage} />
-                    <meta name="twitter:image" content={fullSeo.shareImage} />
-                    <meta name="image" content={fullSeo.shareImage} />
+                    <meta property="og:image" content={process.env.NEXT_PUBLIC_STRAPI_API_URL + seo.shareImage.data.attributes.url} />
+                    <meta name="twitter:image" content={process.env.NEXT_PUBLIC_STRAPI_API_URL + seo.shareImage.data.attributes.url} />
+                    <meta name="image" content={process.env.NEXT_PUBLIC_STRAPI_API_URL + seo.shareImage.data.attributes.url} />
                 </>
             )}
-            {fullSeo.article && <meta property="og:type" content="article" />}
+            {seo.article && <meta property="og:type" content="article" />}
             <meta name="twitter:card" content="summary_large_image" />
         </Head>
     );

@@ -10,6 +10,9 @@ h1 {
 #category {
     font-family: Staatliches;
     font-weight: 500;
+    font-size: 22px;
+    font-size: 1.375rem;
+    line-height: 1.13636;
 }
 
 #title {
@@ -33,6 +36,10 @@ h1 {
 .uk-navbar-container {
     background: #fff !important;
     font-family: Staatliches;
+}
+
+img {
+    opacity: 0.5;
 }
 
 img:hover {

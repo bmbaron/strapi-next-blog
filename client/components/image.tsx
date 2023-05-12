@@ -6,6 +6,7 @@ declare type ImageProps = {
         data: {
             attributes: {
                 alternativeText: string;
+                url: string;
                 width: number;
                 height: number;
             }

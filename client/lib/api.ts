@@ -1,4 +1,3 @@
-// @ts-ignore
 import qs from "qs";
 
 /**
@@ -24,7 +23,7 @@ export async function fetchAPI(path: string, urlParamsObject = {}, options = {})
     const mergedOptions = {
         headers: {
             "Content-Type": "application/json",
-            Authorization: `Bearer ${process.env.token}`,
+            Authorization: `Bearer ${process.env.TOKEN}`,
         },
         timeout: 600000,
         ...options,
@@ -42,7 +41,7 @@ export async function fetchAPI(path: string, urlParamsObject = {}, options = {})
     // Handle response
     if (!response.ok) {
         console.error(response.statusText);
-        throw new Error(`An error occurred please try again`);
+        console.log(`An error occurred please try again`);
     }
     const data = await response.json();
     return data;
