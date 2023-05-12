@@ -21,7 +21,7 @@ type ArticleProps = {
 
 const Card = ({ article }: ArticleProps) => {
     return (
-        <Link legacyBehavior href={`/article/${article.attributes.slug}`}>
+        <Link legacyBehavior href={`/posts/${article.attributes.slug}`}>
             <a className="uk-link-reset">
                 <div className="uk-card uk-card-muted">
                     <div className="uk-card-media-top">
