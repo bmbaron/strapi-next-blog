@@ -1,16 +1,11 @@
-import {useRouter} from "next/router";
+import Article from "@/components/article";
+
 
 const URL = process.env.NEXT_PUBLIC_STRAPI_API_URL;
 
-
-
 const Blog = (data) => {
     return (
-        <>
-            <h1>{data.title}</h1>
-            <h2>{data.description}</h2>
-            <p>{data.content}</p>
-        </>
+        <Article data={data} />
     )
 }
 
@@ -37,7 +32,6 @@ export async function getStaticPaths() {
     }
     const resArticles = await fetch(`${URL}/graphql`, fetchParams);
     const articlesData = await resArticles.json();
-    console.log(articlesData.data.articles.data)
     const paths = articlesData.data.articles.data.map((article) => {
         return { params: {slug: article.attributes.slug }}
     })
@@ -63,6 +57,14 @@ export async function getStaticProps({params}) {
                             title
                             description
                             content
+                            image {
+                                data {
+                                  attributes {
+                                    url
+                                  }  
+                                }
+                            }
+                            longContent
                         }
                     }
                 }                    
@@ -72,8 +74,6 @@ export async function getStaticProps({params}) {
     }
     const resArticle = await fetch(`${URL}/graphql`, fetchParams);
     const articleData = await resArticle.json();
-
-    console.log(articleData)
 
     return {
         props: articleData.data.articles.data[0].attributes,

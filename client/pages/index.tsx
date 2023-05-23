@@ -2,7 +2,6 @@ import React from "react";
 import Articles from "../components/articles";
 import Layout from "../components/layout";
 import Seo from "../components/seo";
-import { fetchAPI } from "../lib/api";
 import {useMediaQuery} from "usehooks-ts";
 import styled from "styled-components";
 
@@ -14,19 +13,33 @@ type IndexProps = {
 const Home = ({articles, categories, homepage}: IndexProps) => {
 
     const isSm = useMediaQuery('(max-width: 600px)');
+    const isMd = useMediaQuery('(max-width: 1000px)');
 
     return (
         <Layout categories={categories}>
-            <Seo seo={homepage.data.attributes.seo} />
+            <Seo seo={homepage?.data?.attributes?.seo} />
             <div className="uk-section">
                 <ArticlesWrapper style={{textAlign: isSm ? 'center' : 'unset'}} className="uk-container uk-container-large">
-                    <h1 style={{fontSize: isSm ? 30 : 70}}>{homepage.data.attributes.hero.title}</h1>
+                    <BigTitle
+                        style={{
+                            fontSize: isSm ? 45 : 70,
+                            position: isMd ? 'relative' : 'sticky',
+                        }}
+                    >
+                        {homepage?.data?.attributes?.hero?.title}
+                    </BigTitle>
                     <Articles articles={articles} />
                 </ArticlesWrapper>
             </div>
         </Layout>
     );
 };
+
+const ArticlesWrapper = styled('div')``
+
+const BigTitle = styled('h1')`
+  top: 50px;
+`
 
 const URL = process.env.NEXT_PUBLIC_STRAPI_API_URL;
 export async function getStaticProps() {
@@ -134,10 +147,5 @@ export async function getStaticProps() {
         }
     }
 }
-
-const ArticlesWrapper = styled('div')`
-
-    
-`
 
 export default Home;

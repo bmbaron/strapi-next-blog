@@ -1,6 +1,5 @@
-import React from "react";
+import React, {useEffect, useRef} from "react";
 import Link from "next/link";
-import NextImage from "./image";
 import Image from "next/image";
 import styled from 'styled-components';
 import {useMediaQuery} from "usehooks-ts";
@@ -26,35 +25,62 @@ type ArticleProps = {
             }
         },
     },
-    leftSide: boolean;
+    index: number;
+    showBig: boolean;
+    bigIndex: number;
+    setBigIndex: React.Dispatch<React.SetStateAction<number>>;
 }
 
-const Card = ({ article, leftSide }: ArticleProps) => {
+const Card = ({ article, showBig, setBigIndex, index }: ArticleProps) => {
 
     const isSm = useMediaQuery('(max-width: 600px)');
+    const cardRef = useRef<HTMLDivElement>();
+
+    useEffect(() => {
+        window.addEventListener('scroll', onScroll);
+        return () => {
+            window.removeEventListener('scroll', onScroll);
+        };
+    }, []);
+
+    const onScroll = () => {
+        if (cardRef?.current) {
+            //@ts-ignore
+            const {top: top} = cardRef?.current?.getBoundingClientRect();
+            if(top < 500 && top > 0) {
+                setBigIndex(index);
+            }
+        }
+    }
+
     return (
-        <Link legacyBehavior href={`/articles/${article.attributes.slug}`}>
-            <a className="uk-link-reset">
-                <CardContainer className="uk-card uk-card-muted">
-                    <ImageContainer className="uk-card-media-top">
-                        <BlogImage alt="hello" width={leftSide || isSm ? 600 : 200} height={leftSide || isSm ? 300 : 100} isBig={leftSide} src={process.env.NEXT_PUBLIC_STRAPI_API_URL + article.attributes.image.data.attributes.url} />
-                    </ImageContainer>
-                    <CardDetails
-                        style={{
-                            flexDirection: isSm ? 'row' : 'column',
-                            gap: isSm ? 20 : 0
-                        }}
-                        className="uk-card-body">
-                        <CardText id="category">
-                            {article.attributes.category.data.attributes.name}
-                        </CardText>
-                        <CardText id="title" className="uk-text-large">
-                            {article.attributes.title}
-                        </CardText>
-                    </CardDetails>
-                </CardContainer>
-            </a>
-        </Link>
+        <CardContainer className="uk-card uk-card-muted" ref={isSm ? null : cardRef}>
+            <ImageContainer className="uk-card-media-top">
+                <Link legacyBehavior href={`/articles/${article.attributes.slug}`}>
+                    <a className="uk-link-reset">
+                        <BlogImage
+                            alt="hello"
+                            width={showBig || isSm ? 600 : 200}
+                            height={showBig || isSm ? 300 : 100}
+                            src={process.env.NEXT_PUBLIC_STRAPI_API_URL + article.attributes.image.data.attributes.url}
+                        />
+                    </a>
+                </Link>
+            </ImageContainer>
+            <CardDetails
+                style={{
+                    flexDirection: isSm ? 'row' : 'column',
+                    gap: isSm ? 20 : 0,
+                }}
+                className="uk-card-body">
+                <CardText id="category">
+                    {article.attributes.category.data.attributes.name}
+                </CardText>
+                <CardText id="title" className="uk-text-large">
+                    {article.attributes.title}
+                </CardText>
+            </CardDetails>
+        </CardContainer>
     );
 };
 
@@ -64,25 +90,30 @@ const CardContainer = styled('div')`
     gap: 10px;
 `
 
-const ImageContainer = styled('div')``
-
-const BlogImage = styled(Image)`
-    object-fit: ${props => props.isBig ? 'cover' : 'contain'};
-`
-
 const CardDetails = styled('div')`
     width: 100%;
-    height: 50px;
-    margin: 0;
-    padding: 0;
+    height: auto;
     margin-bottom: 40px;
+    padding: 10px;
     display: flex;
+    background: none;
 `
+
 const CardText = styled('h5')`
     margin: 0;
     padding: 0;
     align-items: center;
 `
 
+const ImageContainer = styled('div')``
+
+const BlogImage = styled(Image)`
+    object-fit: cover;
+    border-radius: 5px;
+    transition: all 0.1s ease-in-out;
+    &:hover {
+      border-radius: 20px;
+    }
+`
 
 export default Card;
