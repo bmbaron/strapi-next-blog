@@ -1,6 +1,7 @@
-/*a {*/
-/*    text-decoration: none;*/
-/*}*/
+a {
+    text-decoration: none;
+    color: red;
+}
 
 h1 {
     font-family: Staatliches;

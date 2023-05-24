@@ -22,7 +22,7 @@ const Nav = ({ categories }) => {
                             return (
                                 <li key={category.id}>
                                     <StyledLink legacyBehavior href={`/category/${category.attributes.slug}`}>
-                                        <a>{category.attributes.name}</a>
+                                        <StyledA>{category.attributes.name}</StyledA>
                                     </StyledLink>
                                 </li>
                             );
@@ -50,6 +50,13 @@ margin: 10px;
 @media(max-width: 700px) {
     display: none;
 }
+`
+
+const StyledA = styled('a')`
+  &:hover,
+  &:focus{
+    text-decoration: underline !important;
+  };
 `
 
 
