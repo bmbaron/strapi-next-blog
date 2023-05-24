@@ -13,7 +13,7 @@ type IndexProps = {
 const Home = ({articles, categories, homepage}: IndexProps) => {
 
     const isSm = useMediaQuery('(max-width: 600px)');
-    const isMd = useMediaQuery('(max-width: 1000px)');
+    const isMd = useMediaQuery('(max-width: 1250px)');
 
     return (
         <Layout categories={categories}>
@@ -23,7 +23,7 @@ const Home = ({articles, categories, homepage}: IndexProps) => {
                     <BigTitle
                         style={{
                             fontSize: isSm ? 45 : 70,
-                            position: isMd ? 'relative' : 'sticky',
+                            position: isMd ? 'unset' : 'sticky',
                         }}
                     >
                         {homepage?.data?.attributes?.hero?.title}

@@ -1,6 +1,7 @@
 import React, {useEffect, useRef, useState} from "react";
 import Card from "./card";
 import styled from "styled-components";
+import {useMediaQuery} from "usehooks-ts";
 
 type ArticlesProps = {
     articles: [
@@ -23,9 +24,12 @@ type ArticlesProps = {
 }
 
 const Articles = ({ articles }: any) => {
+    const isSm = useMediaQuery('(max-width: 600px)');
     const [bigIndex, setBigIndex] = useState(0);
     return (
-        <ArticlesContainer>
+        <ArticlesContainer
+            style={{paddingBottom: isSm ? '20%' : '30%'}}
+        >
             {articles.data.map((article, index) => {
                 return (
                     <Card
@@ -44,7 +48,6 @@ const Articles = ({ articles }: any) => {
 const ArticlesContainer = styled('div')`
     margin: auto;
     padding-top: 10%;
-    padding-bottom: 20%;
     text-align: center;
 `
 

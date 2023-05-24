@@ -49,6 +49,9 @@ const ArticleContainer = styled('div')`
   margin: auto;
   text-align: center;
   max-width: 50%;
+  @media(max-width: 1000px) {
+    max-width: 90%;
+  }
 `
 
 const Title = styled('h1')`
@@ -64,6 +67,12 @@ const TextContent = styled(ReactMarkdown)`
   h1, a {
     text-align: center;
   }
+  @media(max-width: 700px) {
+    .iframe-video {
+      transform: scale(0.8);
+      margin-left: -50px;
+    }  
+  }  
 `
 
 export default Article;

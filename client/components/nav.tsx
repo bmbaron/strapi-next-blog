@@ -1,5 +1,6 @@
 import React from "react";
 import Link from "next/link";
+import styled from "styled-components";
 
 // @ts-ignore
 const Nav = ({ categories }) => {
@@ -20,9 +21,9 @@ const Nav = ({ categories }) => {
                         {categories.data.map((category: any) => {
                             return (
                                 <li key={category.id}>
-                                    <Link legacyBehavior href={`/category/${category.attributes.slug}`}>
-                                        <a className="uk-link-reset">{category.attributes.name}</a>
-                                    </Link>
+                                    <StyledLink legacyBehavior href={`/category/${category.attributes.slug}`}>
+                                        <a>{category.attributes.name}</a>
+                                    </StyledLink>
                                 </li>
                             );
                         })}
@@ -32,5 +33,24 @@ const Nav = ({ categories }) => {
         </div>
     );
 };
+
+const StyledLink = styled(Link)`
+color:white;
+font-size: x-large;
+font-family: Arial, Helvetica, sans-serif;
+text-decoration: none;
+margin: 10px;
+&:hover,
+&:focus{
+    color: blue;
+};
+&:active{
+    color: red;
+};
+@media(max-width: 700px) {
+    display: none;
+}
+`
+
 
 export default Nav;

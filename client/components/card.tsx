@@ -1,4 +1,4 @@
-import React, {useEffect, useRef} from "react";
+import React, {useEffect, useRef, useState} from "react";
 import Link from "next/link";
 import Image from "next/image";
 import styled from 'styled-components';
@@ -32,9 +32,17 @@ type ArticleProps = {
 }
 
 const Card = ({ article, showBig, setBigIndex, index }: ArticleProps) => {
-
     const isSm = useMediaQuery('(max-width: 600px)');
     const cardRef = useRef<HTMLDivElement>();
+    const [isHovered, setIsHovered] = useState(false);
+
+    if (isSm) {
+        showBig = true;
+    }
+    useEffect(() => {
+
+    }, [isSm])
+
 
     useEffect(() => {
         window.addEventListener('scroll', onScroll);
@@ -54,7 +62,11 @@ const Card = ({ article, showBig, setBigIndex, index }: ArticleProps) => {
     }
 
     return (
-        <CardContainer className="uk-card uk-card-muted" ref={isSm ? null : cardRef}>
+        <CardContainer
+            className="uk-card uk-card-muted"
+            ref={isSm ? null : cardRef}
+            style={{filter: showBig ? 'none' : 'blur(4px)',}}
+        >
             <ImageContainer className="uk-card-media-top">
                 <Link legacyBehavior href={`/articles/${article.attributes.slug}`}>
                     <a className="uk-link-reset">
@@ -63,7 +75,10 @@ const Card = ({ article, showBig, setBigIndex, index }: ArticleProps) => {
                             width={showBig || isSm ? 600 : 200}
                             height={showBig || isSm ? 300 : 100}
                             src={process.env.NEXT_PUBLIC_STRAPI_API_URL + article.attributes.image.data.attributes.url}
+                            onMouseOver={() => setIsHovered(true)}
+                            onMouseOut={() => setIsHovered(false)}
                         />
+                        {isHovered && showBig && <HelperText>Click to read more</HelperText>}
                     </a>
                 </Link>
             </ImageContainer>
@@ -107,13 +122,29 @@ const CardText = styled('h5')`
 
 const ImageContainer = styled('div')``
 
+const HelperText = styled('div')`
+  position: absolute;
+  margin: auto;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 90px;
+  background: rgba(0,0,0,0.7);
+  border-radius: 20px;
+  width: 300px;
+  height: 80px;
+  line-height: 80px;
+  text-align: center;
+  font-size: 30px;
+  color: white;
+  pointer-events: none;
+`
+
+
 const BlogImage = styled(Image)`
     object-fit: cover;
-    border-radius: 5px;
+    border-radius: 20px;
     transition: all 0.1s ease-in-out;
-    &:hover {
-      border-radius: 20px;
-    }
 `
 
 export default Card;
